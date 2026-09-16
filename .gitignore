@@ -1,3 +1,10 @@
 .DS_Store
 Thumbs.db
 *.log
+
+# Never commit credentials. This is a public repository.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
