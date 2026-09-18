@@ -21,21 +21,22 @@ All errors follow a consistent JSON structure:
 
 ## HTTP status codes
 
-| Code  | Meaning                                      |
-| ----- | -------------------------------------------- |
-| `200` | Success                                      |
-| `201` | Created                                      |
-| `202` | Accepted (async job queued)                  |
-| `204` | No Content (resource deleted)                |
-| `400` | Bad Request — invalid parameters             |
-| `401` | Unauthorized — missing or invalid API key    |
-| `402` | Payment Required — insufficient credits      |
-| `403` | Forbidden — valid key but insufficient scope |
-| `404` | Not Found — resource does not exist          |
-| `409` | Conflict — duplicate request (idempotency)   |
-| `422` | Unprocessable Entity — validation error      |
-| `429` | Too Many Requests — rate limited             |
-| `500` | Internal Server Error                        |
+| Code  | Meaning                                                                                                                               |
+| ----- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `200` | Success                                                                                                                               |
+| `201` | Created                                                                                                                               |
+| `202` | Accepted (async job queued)                                                                                                           |
+| `204` | No Content (resource deleted)                                                                                                         |
+| `400` | Bad Request — invalid parameters                                                                                                      |
+| `401` | Unauthorized — missing or invalid API key                                                                                             |
+| `402` | Payment Required — insufficient credits                                                                                               |
+| `403` | Forbidden — valid key but insufficient scope                                                                                          |
+| `404` | Not Found — resource does not exist                                                                                                   |
+| `409` | Conflict — duplicate request (idempotency)                                                                                            |
+| `422` | Unprocessable Entity - validation error, or a connected platform or provider refused the request (`error.message` carries its reason) |
+| `429` | Too Many Requests — rate limited                                                                                                      |
+| `500` | Internal Server Error                                                                                                                 |
+| `502` | Bad Gateway - a connected platform could not be reached at all. Sent without a JSON body. Retry after a short delay.                  |
 
 ## Common error codes
 
@@ -56,6 +57,9 @@ All errors follow a consistent JSON structure:
 | `JOB_FAILED`                   | An async job encountered an error                                                                                                                                                                                                                                                                                                          |
 | `POST_TYPE_UNSUPPORTED`        | `platform_options.<platform>.type` names a post format this platform cannot publish. The message lists the accepted values; see [Platform options](/guides/platform-options).                                                                                                                                                              |
 | `PLATFORM_DAILY_LIMIT_REACHED` | HTTP `422`, not retryable. The platform's daily limit for this post type is used up for a selected account - today, Facebook's 30 Reels per Page in a moving 24-hour window. Nothing is created. Publish after `details.next_available_at`, or send the post as a different type. `details` also carries `account_id`, `limit` and `used`. |
+| `PLATFORM_ERROR`               | HTTP `422`. The connected platform refused the request, for example an expired token or a value it does not accept. `error.message` includes the platform's own reason. Fix the request or reconnect the account; retrying the same request will fail the same way.                                                                        |
+| `PLATFORM_UPSTREAM_ERROR`      | HTTP `422` from the WhatsApp endpoints: WhatsApp refused the request, with its reason in `error.message`. HTTP `502` only when WhatsApp could not be reached.                                                                                                                                                                              |
+| `PROVIDER_ERROR`               | HTTP `422`. An AI or media provider could not produce a result. When `retryable` is `true`, the same request can succeed on a second try.                                                                                                                                                                                                  |
 
 ## Idempotency
 
