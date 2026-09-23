@@ -4,7 +4,7 @@ Generated from the published OpenAPI spec at https://docs.smartlyq.com/openapi.j
 
 Base URL: `https://api.smartlyq.com/v1`
 
-296 paths, 385 operations, 33 resource groups.
+297 paths, 387 operations, 33 resource groups.
 
 Use this to find the right endpoint quickly. For request and response
 shapes, fetch the spec or the reference page for that operation - do not
@@ -242,6 +242,28 @@ guess a body from the summary.
 | `GET` | `/analytics/youtube/demographics` | YouTube viewer demographics |
 | `GET` | `/analytics/youtube/video-retention` | YouTube audience retention |
 
+## contacts (17)
+
+| Method | Path | Operation |
+| --- | --- | --- |
+| `POST` | `/contacts` | Create or upsert a contact |
+| `GET` | `/contacts` | List contacts |
+| `POST` | `/contacts/bulk` | Bulk import contacts |
+| `GET` | `/contacts/{id}` | Get a contact |
+| `PATCH` | `/contacts/{id}` | Update a contact |
+| `DELETE` | `/contacts/{id}` | Delete contact |
+| `GET` | `/contacts/{id}/channels` | Contact channels |
+| `POST` | `/contacts/{id}/enroll` | Enroll a contact in an automation |
+| `PUT` | `/contacts/{id}/fields/{slug}` | Set one custom field |
+| `DELETE` | `/contacts/{id}/fields/{slug}` | Clear one custom field |
+| `POST` | `/contacts/{id}/messages` | Log a message on a contact's timeline |
+| `GET` | `/contacts/{id}/notes` | List contact notes |
+| `POST` | `/contacts/{id}/notes` | Add a note to a contact |
+| `PATCH` | `/contacts/{id}/notes/{note_id}` | Edit a contact note |
+| `DELETE` | `/contacts/{id}/notes/{note_id}` | Delete a contact note |
+| `POST` | `/contacts/{id}/tags` | Add tags to a contact |
+| `DELETE` | `/contacts/{id}/tags` | Remove tags from a contact |
+
 ## seo (17)
 
 | Method | Path | Operation |
@@ -263,26 +285,6 @@ guess a body from the summary.
 | `POST` | `/seo/serp` | Live SERP lookup |
 | `POST` | `/seo/site-audit` | Deep site audit |
 | `POST` | `/seo/spam-score` | Backlink spam score |
-
-## contacts (15)
-
-| Method | Path | Operation |
-| --- | --- | --- |
-| `POST` | `/contacts` | Create or upsert a contact |
-| `GET` | `/contacts` | List contacts |
-| `POST` | `/contacts/bulk` | Bulk import contacts |
-| `GET` | `/contacts/{id}` | Get a contact |
-| `PATCH` | `/contacts/{id}` | Update a contact |
-| `DELETE` | `/contacts/{id}` | Delete contact |
-| `GET` | `/contacts/{id}/channels` | Contact channels |
-| `POST` | `/contacts/{id}/enroll` | Enroll a contact in an automation |
-| `PUT` | `/contacts/{id}/fields/{slug}` | Set one custom field |
-| `DELETE` | `/contacts/{id}/fields/{slug}` | Clear one custom field |
-| `POST` | `/contacts/{id}/messages` | Log a message on a contact's timeline |
-| `GET` | `/contacts/{id}/notes` | List contact notes |
-| `POST` | `/contacts/{id}/notes` | Add a note to a contact |
-| `POST` | `/contacts/{id}/tags` | Add tags to a contact |
-| `DELETE` | `/contacts/{id}/tags` | Remove tags from a contact |
 
 ## automations (11)
 
