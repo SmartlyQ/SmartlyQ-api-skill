@@ -9,7 +9,7 @@ There are two independent limits. **Request limits** govern how often you may ca
 
 ## Request limits
 
-Your allowance scales with the number of social accounts connected to your workspace, because that is what determines how much work your integration legitimately has to do.
+Your allowance belongs to your workspace and scales with the number of social accounts its owner has connected, because that is what determines how much work your integration legitimately has to do.
 
 | Connected accounts | Requests per minute | Analytics requests per second |
 | ------------------ | ------------------- | ----------------------------- |
@@ -18,6 +18,8 @@ Your allowance scales with the number of social accounts connected to your works
 | 2,001 and more     | 1,200               | 20                            |
 
 The limit moves as soon as you connect or disconnect an account. There is no separate request limit per platform.
+
+**All API keys in a workspace share this one allowance**, including the keys that MCP connections create, so adding keys does not add requests. Test keys (`sqk_test_`) have a separate allowance of the same size, so sandbox traffic never uses up your live one.
 
 ### The analytics burst limit
 
@@ -28,7 +30,7 @@ This exists so a dashboard refresh cannot spend a whole minute's budget in one b
 Every other endpoint is governed by the per-minute window alone.
 
 <Note>
-  If your key has a custom rate limit configured, that value is used instead of the table above.
+  If your key has a custom rate limit configured, that value is used instead of the table above, and that key has an allowance of its own.
 </Note>
 
 ## Posting caps
@@ -53,7 +55,7 @@ When an account is capped, publishing to it is refused before the platform is ca
 
 ## Response headers
 
-Every response includes rate-limit headers:
+Every rate-limited response includes these headers. Polling `GET /jobs/{job_id}` is not rate limited and does not carry them.
 
 | Header                  | Description                           |
 | ----------------------- | ------------------------------------- |
