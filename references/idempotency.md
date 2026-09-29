@@ -58,10 +58,10 @@ This catches the classic mis-wired-cron bug even when no idempotency key was sen
 
 ## Retry rules of thumb
 
-| You got                              | Do                                                                            |
-| ------------------------------------ | ----------------------------------------------------------------------------- |
-| Timeout / connection reset / 5xx     | Retry with the **same** `X-Idempotency-Key`                                   |
-| `200` with `idempotent_replay: true` | Treat as success - the original post's id is in `post_id`                     |
-| `409 DUPLICATE_CONTENT`              | You (or another process) already posted this - use `details.existing_post_id` |
-| `429`                                | Back off per `Retry-After`, then retry with the same key                      |
-| `422` validation errors              | Fix the request - do not blind-retry                                          |
+| You got | Do |
+| - | - |
+| Timeout / connection reset / 5xx | Retry with the **same** `X-Idempotency-Key` |
+| `200` with `idempotent_replay: true` | Treat as success - the original post's id is in `post_id` |
+| `409 DUPLICATE_CONTENT` | You (or another process) already posted this - use `details.existing_post_id` |
+| `429` | Back off per `Retry-After`, then retry with the same key |
+| `422` validation errors | Fix the request - do not blind-retry |

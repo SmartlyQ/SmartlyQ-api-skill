@@ -34,13 +34,13 @@ curl https://api.smartlyq.com/v1/jobs/job_abc123 \
 
 ### Job statuses
 
-| Status       | Meaning                                            |
-| ------------ | -------------------------------------------------- |
-| `pending`    | Queued, not yet started                            |
-| `processing` | Actively running                                   |
-| `completed`  | Done — `result` field contains the output          |
-| `failed`     | Error — `error` field explains what went wrong     |
-| `cancelled`  | Job was cancelled via `POST /jobs/{job_id}/cancel` |
+| Status | Meaning |
+| - | - |
+| `pending` | Queued, not yet started |
+| `processing` | Actively running |
+| `completed` | Done — `result` field contains the output |
+| `failed` | Error — `error` field explains what went wrong |
+| `cancelled` | Job was cancelled via `POST /jobs/{job_id}/cancel` |
 
 ## Webhooks (alternative)
 

@@ -12,10 +12,10 @@ There are two independent limits. **Request limits** govern how often you may ca
 Your allowance belongs to your workspace and scales with the number of social accounts its owner has connected, because that is what determines how much work your integration legitimately has to do.
 
 | Connected accounts | Requests per minute | Analytics requests per second |
-| ------------------ | ------------------- | ----------------------------- |
-| 0 to 2             | 60                  | 6                             |
-| 3 to 2,000         | 600                 | 10                            |
-| 2,001 and more     | 1,200               | 20                            |
+| - | - | - |
+| 0 to 2 | 60 | 6 |
+| 3 to 2,000 | 600 | 10 |
+| 2,001 and more | 1,200 | 20 |
 
 The limit moves as soon as you connect or disconnect an account. There is no separate request limit per platform.
 
@@ -37,15 +37,15 @@ Every other endpoint is governed by the per-minute window alone.
 
 Each connected account has its own daily publishing cap. The caps are per account, so connecting more accounts raises your total throughput; they are not a shared pool.
 
-| Platform             | Posts per day, per account |
-| -------------------- | -------------------------- |
-| Threads              | 250                        |
-| Instagram            | 100                        |
-| Facebook             | 100                        |
-| X                    | 50                         |
-| Pinterest            | 25                         |
-| TikTok               | 15 video + 15 photo        |
-| Every other platform | 50                         |
+| Platform | Posts per day, per account |
+| - | - |
+| Threads | 250 |
+| Instagram | 100 |
+| Facebook | 100 |
+| X | 50 |
+| Pinterest | 25 |
+| TikTok | 15 video + 15 photo |
+| Every other platform | 50 |
 
 TikTok video and photo posts count against separate allowances, so 15 of each per day.
 
@@ -57,11 +57,11 @@ When an account is capped, publishing to it is refused before the platform is ca
 
 Every rate-limited response includes these headers. Polling `GET /jobs/{job_id}` is not rate limited and does not carry them.
 
-| Header                  | Description                           |
-| ----------------------- | ------------------------------------- |
-| `X-RateLimit-Limit`     | Max requests allowed in the window    |
-| `X-RateLimit-Remaining` | Requests remaining                    |
-| `X-RateLimit-Reset`     | Unix timestamp when the window resets |
+| Header | Description |
+| - | - |
+| `X-RateLimit-Limit` | Max requests allowed in the window |
+| `X-RateLimit-Remaining` | Requests remaining |
+| `X-RateLimit-Reset` | Unix timestamp when the window resets |
 
 ## Exceeding a limit
 
@@ -81,9 +81,9 @@ Both request limits return **429 Too Many Requests** with a `Retry-After` header
 
 A `429` can mean one of two things, and they are handled differently:
 
-| Code                    | Meaning                                                                                                              | What to do                                                                       |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `RATE_LIMIT_EXCEEDED`   | You exceeded your own request limit, above.                                                                          | Back off for `Retry-After` seconds.                                              |
+| Code | Meaning | What to do |
+| - | - | - |
+| `RATE_LIMIT_EXCEEDED` | You exceeded your own request limit, above. | Back off for `Retry-After` seconds. |
 | `PLATFORM_RATE_LIMITED` | A connected platform is temporarily limiting publishing for that account. Nothing to do with your request allowance. | Retry that account after the platform's cooldown. Other accounts are unaffected. |
 
 ### Handling 429 errors
