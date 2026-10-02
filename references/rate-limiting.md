@@ -105,3 +105,5 @@ A `429` can mean one of two things, and they are handled differently:
     Batch operations where possible and cache responses to reduce call volume.
   </Step>
 </Steps>
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

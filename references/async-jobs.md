@@ -45,3 +45,5 @@ curl https://api.smartlyq.com/v1/jobs/job_abc123 \
 ## Webhooks (alternative)
 
 Instead of polling, configure a [webhook](/guides/webhooks) to receive a notification when the job completes.
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

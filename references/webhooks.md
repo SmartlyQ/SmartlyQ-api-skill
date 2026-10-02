@@ -179,3 +179,5 @@ CRM events fire regardless of whether the change came from the app or the API.
 <Note>
   Machine-readable payload schemas for every event ship in the [OpenAPI spec](https://docs.smartlyq.com/openapi.json) under the standard OpenAPI 3.1 `webhooks` object, so SDK generators and AI agents can consume them.
 </Note>
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

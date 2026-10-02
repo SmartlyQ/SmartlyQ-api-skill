@@ -74,3 +74,5 @@ curl -X POST https://api.smartlyq.com/v1/articles/generate \
 ```
 
 Idempotency keys expire after **24 hours**.
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

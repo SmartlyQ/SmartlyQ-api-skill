@@ -65,3 +65,5 @@ This catches the classic mis-wired-cron bug even when no idempotency key was sen
 | `409 DUPLICATE_CONTENT` | You (or another process) already posted this - use `details.existing_post_id` |
 | `429` | Back off per `Retry-After`, then retry with the same key |
 | `422` validation errors | Fix the request - do not blind-retry |
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.
