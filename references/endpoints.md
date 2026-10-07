@@ -4,7 +4,7 @@ Generated from the published OpenAPI spec at https://docs.smartlyq.com/openapi.j
 
 Base URL: `https://api.smartlyq.com/v1`
 
-297 paths, 387 operations, 33 resource groups.
+298 paths, 388 operations, 33 resource groups.
 
 Use this to find the right endpoint quickly. For request and response
 shapes, fetch the spec or the reference page for that operation - do not
@@ -503,6 +503,15 @@ guess a body from the summary.
 | `POST` | `/reviews/{review_id}/reply` | Reply to review |
 | `DELETE` | `/reviews/{review_id}/reply` | Delete review reply |
 
+## shorts (4)
+
+| Method | Path | Operation |
+| --- | --- | --- |
+| `GET` | `/shorts` | List shorts jobs |
+| `GET` | `/shorts/caption-styles` | List caption styles for shorts |
+| `POST` | `/shorts/generate` | Generate viral shorts from a long video |
+| `GET` | `/shorts/{uid}` | Get shorts job + clips |
+
 ## audio (3)
 
 | Method | Path | Operation |
@@ -526,14 +535,6 @@ guess a body from the summary.
 | `GET` | `/jobs` | List jobs |
 | `GET` | `/jobs/{job_id}` | Get job |
 | `POST` | `/jobs/{job_id}/cancel` | Cancel job |
-
-## shorts (3)
-
-| Method | Path | Operation |
-| --- | --- | --- |
-| `GET` | `/shorts` | List shorts jobs |
-| `POST` | `/shorts/generate` | Generate viral shorts from a long video |
-| `GET` | `/shorts/{uid}` | Get shorts job + clips |
 
 ## content (2)
 
