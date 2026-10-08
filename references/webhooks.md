@@ -146,8 +146,14 @@ All registerable events. Registering an event name outside this catalog is rejec
 
 | Event | Fires when | `data` fields |
 | - | - | - |
-| `job.completed` | An async job finished successfully | `job_id`, `type`, `status` |
+| `job.completed` | An async job finished successfully | `job_id`, `type`, `status`; for `type: "shorts"` also `job_uid`, `clip_count`, `clips[]` (same shape as `GET /shorts/{uid}`); for `type: "edit"` also `stage` (`ready` with `editor_url`, or `exported` with `output_url`) and `duration_ms` |
 | `job.failed` | An async job failed | `job_id`, `type`, `status`, `error` |
+
+#### Per-job webhook URL
+
+`POST /shorts/generate` and `POST /edits` also take a `webhook_url`: a public HTTPS URL that gets this job's `job.completed` or `job.failed`, even if you have no registered webhooks. The 202 response returns a `webhook_secret` for that job, shown once; verify `X-SmartlyQ-Signature` on those deliveries with it. Same envelope, retries and safety checks as registered webhooks. A Magic Shorts job whose clips all failed is reported as `job.failed`.
+
+A video edit (`POST /edits`) sends `job.completed` twice: when it is ready (`stage: "ready"`, open it with `editor_url`) and when an export finishes (`stage: "exported"`, the MP4 at `output_url`). A failure sends `job.failed` with `stage` `edit` or `export`, `error` and `error_code`. Each is sent once per edit or export.
 
 ### Billing & keys
 

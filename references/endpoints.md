@@ -4,7 +4,7 @@ Generated from the published OpenAPI spec at https://docs.smartlyq.com/openapi.j
 
 Base URL: `https://api.smartlyq.com/v1`
 
-298 paths, 388 operations, 33 resource groups.
+303 paths, 395 operations, 35 resource groups.
 
 Use this to find the right endpoint quickly. For request and response
 shapes, fetch the spec or the reference page for that operation - do not
@@ -385,6 +385,17 @@ guess a body from the summary.
 | `PUT` | `/webhooks/{id}` | Update webhook |
 | `POST` | `/webhooks/{id}/test` | Send test webhook |
 
+## edits (6)
+
+| Method | Path | Operation |
+| --- | --- | --- |
+| `POST` | `/edits` | Create a video edit |
+| `GET` | `/edits` | List video edits |
+| `GET` | `/edits/options` | List edit options |
+| `GET` | `/edits/{uid}` | Get a video edit |
+| `PATCH` | `/edits/{uid}` | Update a video edit |
+| `POST` | `/edits/{uid}/export` | Export a video edit |
+
 ## media (6)
 
 | Method | Path | Operation |
@@ -556,6 +567,12 @@ guess a body from the summary.
 | --- | --- | --- |
 | `GET` | `/saas/plans` | List SaaS plans |
 | `GET` | `/saas/plans/{id}` | Get a SaaS plan |
+
+## languages (1)
+
+| Method | Path | Operation |
+| --- | --- | --- |
+| `GET` | `/languages` | List speech languages |
 
 ## logs (1)
 
