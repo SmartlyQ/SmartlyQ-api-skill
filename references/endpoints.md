@@ -4,7 +4,7 @@ Generated from the published OpenAPI spec at https://docs.smartlyq.com/openapi.j
 
 Base URL: `https://api.smartlyq.com/v1`
 
-303 paths, 395 operations, 35 resource groups.
+304 paths, 396 operations, 35 resource groups.
 
 Use this to find the right endpoint quickly. For request and response
 shapes, fetch the spec or the reference page for that operation - do not
@@ -547,19 +547,20 @@ guess a body from the summary.
 | `GET` | `/jobs/{job_id}` | Get job |
 | `POST` | `/jobs/{job_id}/cancel` | Cancel job |
 
+## pipelines (3)
+
+| Method | Path | Operation |
+| --- | --- | --- |
+| `GET` | `/pipelines` | List pipelines |
+| `POST` | `/pipelines` | Create a pipeline |
+| `GET` | `/pipelines/{id}/stages` | List a pipeline's stages |
+
 ## content (2)
 
 | Method | Path | Operation |
 | --- | --- | --- |
 | `POST` | `/content/caption` | Generate a social caption |
 | `POST` | `/content/rewrite` | Rewrite content |
-
-## pipelines (2)
-
-| Method | Path | Operation |
-| --- | --- | --- |
-| `GET` | `/pipelines` | List pipelines |
-| `POST` | `/pipelines` | Create a pipeline |
 
 ## saas (2)
 
