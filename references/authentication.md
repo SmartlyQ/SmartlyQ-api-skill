@@ -25,9 +25,9 @@ curl -X GET https://api.smartlyq.com/v1/me \
   -H "Authorization: Bearer sqk_live_xxxxxxxxxxxx"
 ```
 
-<Warning>
-  Never expose your API key in client-side code, public repositories, or logs.
-</Warning>
+> [!WARNING]
+>
+> Never expose your API key in client-side code, public repositories, or logs.
 
 ## Scopes
 

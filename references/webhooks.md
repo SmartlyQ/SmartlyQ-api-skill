@@ -20,9 +20,9 @@ The full management surface via API: list (`GET /webhooks`), create (`POST /webh
 
 Limits and safety: up to **10 active webhooks per workspace**; URLs must be public HTTPS endpoints (internal/private addresses are rejected at save time and re-checked at delivery time); unknown event names are rejected with a validation error. Webhooks are a developer-workspace resource: the `X-Profile-Id` header is not accepted on webhook routes - profile events reach your webhooks automatically via fan-up.
 
-<Tip>
-  `POST /webhooks/{id}/test` sends a `webhook.test` event through the real signing pipeline (same headers, same HMAC) and returns the outcome synchronously - the fastest way to verify your endpoint and signature code. Test deliveries are never retried.
-</Tip>
+> [!TIP]
+>
+> `POST /webhooks/{id}/test` sends a `webhook.test` event through the real signing pipeline (same headers, same HMAC) and returns the outcome synchronously - the fastest way to verify your endpoint and signature code. Test deliveries are never retried.
 
 ## Delivery envelope
 
@@ -48,9 +48,9 @@ Every delivery is JSON with the same envelope:
 * `created_at` is UTC, ISO 8601.
 * `data` is the event-specific payload (catalog below).
 
-<Note>
-  **Profiles fan-up:** if you use [Profiles](/guides/profiles) (sub-accounts for your end customers), events raised inside a profile's workspace are also delivered to **your** webhooks, with two extra fields added to `data`: `profile_id` and `profile_workspace_id`, so you can attribute the event to the right end customer.
-</Note>
+> [!NOTE]
+>
+> **Profiles fan-up:** if you use [Profiles](/guides/profiles) (sub-accounts for your end customers), events raised inside a profile's workspace are also delivered to **your** webhooks, with two extra fields added to `data`: `profile_id` and `profile_workspace_id`, so you can attribute the event to the right end customer.
 
 ## Headers
 
@@ -85,9 +85,9 @@ function verifySignature(rawBody, signatureHeader, secret) {
 }
 ```
 
-<Warning>
-  Always verify the signature before processing a webhook. Unverified payloads may be spoofed. The signing secret is shown once, when you create the endpoint.
-</Warning>
+> [!WARNING]
+>
+> Always verify the signature before processing a webhook. Unverified payloads may be spoofed. The signing secret is shown once, when you create the endpoint.
 
 ## Retry policy
 
@@ -182,8 +182,8 @@ CRM events fire regardless of whether the change came from the app or the API.
 | `deal.won` | An opportunity was marked won | same as `deal.created` |
 | `deal.lost` | An opportunity was marked lost | same as `deal.created` |
 
-<Note>
-  Machine-readable payload schemas for every event ship in the [OpenAPI spec](https://docs.smartlyq.com/openapi.json) under the standard OpenAPI 3.1 `webhooks` object, so SDK generators and AI agents can consume them.
-</Note>
+> [!NOTE]
+>
+> Machine-readable payload schemas for every event ship in the [OpenAPI spec](https://docs.smartlyq.com/openapi.json) under the standard OpenAPI 3.1 `webhooks` object, so SDK generators and AI agents can consume them.
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

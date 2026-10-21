@@ -29,9 +29,9 @@ This exists so a dashboard refresh cannot spend a whole minute's budget in one b
 
 Every other endpoint is governed by the per-minute window alone.
 
-<Note>
-  If your key has a custom rate limit configured, that value is used instead of the table above, and that key has an allowance of its own.
-</Note>
+> [!NOTE]
+>
+> If your key has a custom rate limit configured, that value is used instead of the table above, and that key has an allowance of its own.
 
 ## Posting caps
 
@@ -88,22 +88,20 @@ A `429` can mean one of two things, and they are handled differently:
 
 ### Handling 429 errors
 
-<Steps>
-  <Step title="Read the Retry-After header">
-    The header value tells you how many seconds to wait. For an analytics burst it is 1 second.
-  </Step>
+**1. Read the Retry-After header**
 
-  <Step title="Back off and retry">
-    Use exponential backoff: wait the `Retry-After` value, then double on each subsequent retry.
-  </Step>
+The header value tells you how many seconds to wait. For an analytics burst it is 1 second.
 
-  <Step title="Spread analytics calls">
-    If you are hitting the burst limit, space your analytics calls across the minute rather than firing them together.
-  </Step>
+**2. Back off and retry**
 
-  <Step title="Optimize your calls">
-    Batch operations where possible and cache responses to reduce call volume.
-  </Step>
-</Steps>
+Use exponential backoff: wait the `Retry-After` value, then double on each subsequent retry.
+
+**3. Spread analytics calls**
+
+If you are hitting the burst limit, space your analytics calls across the minute rather than firing them together.
+
+**4. Optimize your calls**
+
+Batch operations where possible and cache responses to reduce call volume.
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.
