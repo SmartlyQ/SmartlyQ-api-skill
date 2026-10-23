@@ -14,11 +14,11 @@ Webhooks let your server receive HTTP POST callbacks when events occur in Smartl
 Two ways to register an endpoint (both HTTPS-only, public URLs):
 
 * **Dashboard**: [Developer Dashboard](https://app.smartlyq.com/next/developer) → **Webhooks** tab → add an endpoint URL and select events.
-* **API**: `POST /webhooks` with `url` and an `events` array (see the [API reference](/api-reference/webhooks/create-webhook)). The response includes the signing `secret` - shown exactly once.
+* **API**: `POST /webhooks` with `url` and an `events` array (see the [API reference](/api-reference/webhooks/create-webhook.md)). The response includes the signing `secret` - shown exactly once.
 
 The full management surface via API: list (`GET /webhooks`), create (`POST /webhooks`), update url/events or pause/resume (`PUT /webhooks/{id}`), send a signed test delivery (`POST /webhooks/{id}/test`), inspect the delivery log (`GET /webhooks/logs`), and delete (`DELETE /webhooks/{id}`).
 
-Limits and safety: up to **10 active webhooks per workspace**; URLs must be public HTTPS endpoints (internal/private addresses are rejected at save time and re-checked at delivery time); unknown event names are rejected with a validation error. Webhooks are a developer-workspace resource: the `X-Profile-Id` header is not accepted on webhook routes - profile events reach your webhooks automatically via fan-up.
+Limits and safety: up to **10 active webhooks per workspace** that you add yourself (dashboard or API key), plus up to **50** created by connected apps such as Zapier, Pabbly Connect and Make (one per Zap, workflow or scenario, removed by the app when the trigger is turned off); paused and failing webhooks do not count; URLs must be public HTTPS endpoints (internal/private addresses are rejected at save time and re-checked at delivery time); unknown event names are rejected with a validation error. Webhooks are a developer-workspace resource: the `X-Profile-Id` header is not accepted on webhook routes - profile events reach your webhooks automatically via fan-up.
 
 > [!TIP]
 >
@@ -50,7 +50,7 @@ Every delivery is JSON with the same envelope:
 
 > [!NOTE]
 >
-> **Profiles fan-up:** if you use [Profiles](/guides/profiles) (sub-accounts for your end customers), events raised inside a profile's workspace are also delivered to **your** webhooks, with two extra fields added to `data`: `profile_id` and `profile_workspace_id`, so you can attribute the event to the right end customer.
+> **Profiles fan-up:** if you use [Profiles](/guides/profiles.md) (sub-accounts for your end customers), events raised inside a profile's workspace are also delivered to **your** webhooks, with two extra fields added to `data`: `profile_id` and `profile_workspace_id`, so you can attribute the event to the right end customer.
 
 ## Headers
 
@@ -95,6 +95,7 @@ function verifySignature(rawBody, signatureHeader, secret) {
 * If your endpoint answers `429` with a `Retry-After` header, we honor it (capped at 1 hour) instead of the standard backoff.
 * After the final attempt the delivery is marked **dead-letter** (it is not silently dropped - you can re-run it from the dashboard Logs).
 * **10 consecutive failures** flip the endpoint to `failing` and pause deliveries until you fix and re-enable it.
+* A `410 Gone` answer is never retried: it means the receiver no longer wants the events. A webhook a connected app created is deleted; one you added is set to `failing`.
 * Delivery records are retained for **90 days**.
 
 ## Event catalog
