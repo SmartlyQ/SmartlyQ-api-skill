@@ -14,7 +14,7 @@ Webhooks let your server receive HTTP POST callbacks when events occur in Smartl
 Two ways to register an endpoint (both HTTPS-only, public URLs):
 
 * **Dashboard**: [Developer Dashboard](https://app.smartlyq.com/next/developer) → **Webhooks** tab → add an endpoint URL and select events.
-* **API**: `POST /webhooks` with `url` and an `events` array (see the [API reference](/api-reference/webhooks/create-webhook.md)). The response includes the signing `secret` - shown exactly once.
+* **API**: `POST /webhooks` with `url` and an `events` array (see the [API reference](https://docs.smartlyq.com/api-reference/webhooks/create-webhook.md)). The response includes the signing `secret` - shown exactly once. A connected app (Zapier, Pabbly Connect, Make) gets no secret, and when it subscribes an address it already has, that webhook is updated instead of a second one being added.
 
 The full management surface via API: list (`GET /webhooks`), create (`POST /webhooks`), update url/events or pause/resume (`PUT /webhooks/{id}`), send a signed test delivery (`POST /webhooks/{id}/test`), inspect the delivery log (`GET /webhooks/logs`), and delete (`DELETE /webhooks/{id}`).
 
@@ -50,7 +50,7 @@ Every delivery is JSON with the same envelope:
 
 > [!NOTE]
 >
-> **Profiles fan-up:** if you use [Profiles](/guides/profiles.md) (sub-accounts for your end customers), events raised inside a profile's workspace are also delivered to **your** webhooks, with two extra fields added to `data`: `profile_id` and `profile_workspace_id`, so you can attribute the event to the right end customer.
+> **Profiles fan-up:** if you use [Profiles](https://docs.smartlyq.com/guides/profiles.md) (sub-accounts for your end customers), events raised inside a profile's workspace are also delivered to **your** webhooks, with two extra fields added to `data`: `profile_id` and `profile_workspace_id`, so you can attribute the event to the right end customer.
 
 ## Headers
 
