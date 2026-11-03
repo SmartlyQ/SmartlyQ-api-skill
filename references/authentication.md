@@ -14,7 +14,7 @@ Get your API key from the [Developer Dashboard](https://app.smartlyq.com/next/de
 | Key prefix | Environment |
 | - | - |
 | `sqk_live_*` | Production — real credits, real data |
-| `sqk_test_*` | Sandbox — no credits charged |
+| `sqk_test_*` | Sandbox — sample responses, no credits charged. Endpoints with no sample response (for example images, audio, avatar videos, Captain and the instant SEO lookups) return `403 TEST_KEY_NOT_SUPPORTED`; use a live key for those. |
 
 ## Making authenticated requests
 
