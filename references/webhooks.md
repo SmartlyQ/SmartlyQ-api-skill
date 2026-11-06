@@ -183,6 +183,25 @@ CRM events fire regardless of whether the change came from the app or the API.
 | `deal.won` | An opportunity was marked won | same as `deal.created` |
 | `deal.lost` | An opportunity was marked lost | same as `deal.created` |
 
+### Calendar
+
+Booking events fire once per real change to a booking made through your event types - from the booking page, the app, the API or the calendar itself. A repeated update that changes nothing sends nothing.
+
+| Event | Fires when | `data` fields |
+| - | - | - |
+| `booking.created` | Someone booked a time that needs no approval | `email`, `contact` (as in CRM events), `booking` (below) |
+| `booking.requested` | Someone booked a time that needs the host's approval; `booking.confirmed` or `booking.rejected` follows | same as `booking.created` |
+| `booking.confirmed` | The host accepted a booking that was waiting | same as `booking.created` |
+| `booking.rescheduled` | A booking moved to another time - by the host, or by the guest after the host asked them to pick a new time (sent once the new time is booked) | same as `booking.created`; `booking.uid` is the new uid, `booking.rescheduled_from_uid` the previous one |
+| `booking.cancelled` | A booking was cancelled, by the guest or the host | same as `booking.created`, plus `booking.cancellation_reason` when one was given |
+| `booking.rejected` | The host turned down a booking that was waiting | same as `booking.cancelled` |
+| `booking.no_show` | A booking was marked as a no-show | same as `booking.created` |
+| `booking.completed` | A booking was marked as completed | same as `booking.created` |
+
+`booking` is `{id, uid, status, title, description, start_time, end_time, timezone, location {type, meeting_url, address}, event_type {id, slug, title}, host {name, email, user_id}, guests[], answers{}, is_recurring, rescheduled_from_uid, created_at}`. `start_time` and `end_time` are UTC (ISO 8601); `timezone` is the guest's. `answers` holds the booker's answers to the event type's questions, keyed by question name. Host notes are never included.
+
+Booking events carry contact details, so they follow the same rule as CRM events: a webhook created by a team member without CRM access, or limited to the contacts assigned to them, does not receive them. Appointments copied in from a connected Google Calendar are not bookings and send no booking events.
+
 > [!NOTE]
 >
 > Machine-readable payload schemas for every event ship in the [OpenAPI spec](https://docs.smartlyq.com/openapi.json) under the standard OpenAPI 3.1 `webhooks` object, so SDK generators and AI agents can consume them.
