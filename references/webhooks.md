@@ -197,8 +197,11 @@ Booking events fire once per real change to a booking made through your event ty
 | `booking.rejected` | The host turned down a booking that was waiting | same as `booking.cancelled` |
 | `booking.no_show` | A booking was marked as a no-show | same as `booking.created` |
 | `booking.completed` | A booking was marked as completed | same as `booking.created` |
+| `booking.paid` | A payment for a booking went through - the deposit, or a later charge such as a no-show fee | same as `booking.created`, plus `booking.payment` `{amount_minor, currency, payment_intent, test_mode}` (`amount_minor` in the currency's smallest unit, e.g. cents) |
+| `booking.started` | A confirmed booking's start time arrived | same as `booking.created`; sent within about a minute of the start |
+| `booking.ended` | A booking's end time passed (not for cancelled or moved bookings) | same as `booking.created`; sent within about a minute of the end |
 
-`booking` is `{id, uid, status, title, description, start_time, end_time, timezone, location {type, meeting_url, address}, event_type {id, slug, title}, host {name, email, user_id}, guests[], answers{}, is_recurring, rescheduled_from_uid, created_at}`. `start_time` and `end_time` are UTC (ISO 8601); `timezone` is the guest's. `answers` holds the booker's answers to the event type's questions, keyed by question name. Host notes are never included.
+`booking` is `{id, uid, status, title, description, start_time, end_time, timezone, location {type, meeting_url, address}, event_type {id, slug, title}, host {name, email, user_id}, guests[], topic, guest_notes, answers{}, is_recurring, rescheduled_from_uid, created_at}`. `start_time` and `end_time` are UTC (ISO 8601); `timezone` is the guest's. `topic` is the answer to the built-in question "What is this meeting about?", `guest_notes` what the guest wrote in the form's notes field, and `answers` the booker's answers to the questions you added, keyed by question name. Your team's own booking notes are never included.
 
 Booking events carry contact details, so they follow the same rule as CRM events: a webhook created by a team member without CRM access, or limited to the contacts assigned to them, does not receive them. Appointments copied in from a connected Google Calendar are not bookings and send no booking events.
 
