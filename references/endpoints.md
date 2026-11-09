@@ -4,7 +4,7 @@ Generated from the published OpenAPI spec at https://docs.smartlyq.com/openapi.j
 
 Base URL: `https://api.smartlyq.com/v1`
 
-304 paths, 396 operations, 35 resource groups.
+314 paths, 411 operations, 35 resource groups.
 
 Use this to find the right endpoint quickly. For request and response
 shapes, fetch the spec or the reference page for that operation - do not
@@ -242,6 +242,30 @@ guess a body from the summary.
 | `GET` | `/analytics/youtube/demographics` | YouTube viewer demographics |
 | `GET` | `/analytics/youtube/video-retention` | YouTube audience retention |
 
+## calendar (19)
+
+| Method | Path | Operation |
+| --- | --- | --- |
+| `GET` | `/calendar/availability` | List availability schedules |
+| `POST` | `/calendar/availability` | Create an availability schedule |
+| `PATCH` | `/calendar/availability/{id}` | Update an availability schedule |
+| `DELETE` | `/calendar/availability/{id}` | Delete an availability schedule |
+| `GET` | `/calendar/blocked-times` | List blocked time |
+| `POST` | `/calendar/blocked-times` | Block off time |
+| `DELETE` | `/calendar/blocked-times/{id}` | Free blocked time |
+| `GET` | `/calendar/bookings` | List bookings |
+| `POST` | `/calendar/bookings` | Take a booking |
+| `GET` | `/calendar/bookings/{id}` | Get a booking |
+| `POST` | `/calendar/bookings/{id}/cancel` | Cancel a booking |
+| `GET` | `/calendar/bookings/{id}/notes` | List booking notes |
+| `POST` | `/calendar/bookings/{id}/notes` | Add a booking note |
+| `DELETE` | `/calendar/bookings/{id}/notes/{note_id}` | Delete a booking note |
+| `POST` | `/calendar/bookings/{id}/reschedule` | Reschedule a booking |
+| `POST` | `/calendar/bookings/{id}/status` | Set a booking's status |
+| `GET` | `/calendar/busy-times` | List busy times |
+| `GET` | `/calendar/event-types` | List booking pages |
+| `GET` | `/calendar/slots` | List open slots |
+
 ## contacts (17)
 
 | Method | Path | Operation |
@@ -468,15 +492,6 @@ guess a body from the summary.
 | `POST` | `/articles/generate` | Generate article |
 | `GET` | `/articles/{article_id}` | Get article |
 | `DELETE` | `/articles/{article_id}` | Delete article |
-
-## calendar (4)
-
-| Method | Path | Operation |
-| --- | --- | --- |
-| `POST` | `/calendar/bookings` | Take a booking |
-| `POST` | `/calendar/bookings/{id}/cancel` | Cancel a booking |
-| `GET` | `/calendar/event-types` | List booking pages |
-| `GET` | `/calendar/slots` | List open slots |
 
 ## custom-fields (4)
 
