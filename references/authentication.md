@@ -52,7 +52,7 @@ Each key can be limited to specific scopes. Available scopes:
 | `contacts:read` / `contacts:write` | CRM contacts, their tags and notes, custom field definitions, the workspace tag vocabulary, automation enrollment |
 | `companies:read` / `companies:write` | Companies / organisations, and linking contacts to them |
 | `tasks:read` / `tasks:write` | CRM tasks and activities, and logging time against them |
-| `calendar:read` / `calendar:write` | Booking pages and open slots; taking and cancelling bookings |
+| `calendar:read` / `calendar:write` | Booking pages and open slots; taking, cancelling and rescheduling bookings, their status and notes; blocked time, availability schedules and busy times |
 | `opportunities:read` / `opportunities:write` | Pipelines and deals/opportunities, stage moves, status |
 | `workspaces:read` / `workspaces:write` / `workspaces:bulk` | Workspaces, their subscriptions and wallets; bulk workspace actions |
 | `profiles:read` / `profiles:write` / `profiles:manage` | Connection profiles, their accounts, and connect links |

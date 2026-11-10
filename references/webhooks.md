@@ -7,7 +7,7 @@
 
 ## Overview
 
-Webhooks let your server receive HTTP POST callbacks when events occur in SmartlyQ - a post publishing, a new comment or DM arriving, a contact being created, your wallet running low, and more. There are **38 events** across posting, accounts, inbox, reviews, jobs, billing, and CRM.
+Webhooks let your server receive HTTP POST callbacks when events occur in SmartlyQ - a post publishing, a new comment or DM arriving, a contact being created, your wallet running low, and more. Events cover posting, accounts, inbox, reviews, jobs, billing, commerce, CRM and calendar.
 
 ## Setting up webhooks
 
@@ -167,6 +167,19 @@ A video edit (`POST /edits`) sends `job.completed` twice: when it is ready (`sta
 | `wallet.recharge.failed` | Auto-recharge failed (or grace expired) | `amount`, `currency`, `error`, `balance`, `retry_after`; on grace-expiry pauses instead: `reason`, `profiles_paused`, `grace_days` |
 | `account_billing.charged` | Monthly per-account billing charged your wallet | `period`, `accounts`, `amount`, `balance_after` |
 | `account_billing.failed` | Monthly per-account billing could not charge | `period`, `accounts`, `amount_due`, `error`, `grace_days_remaining`; after grace: `profiles_paused` |
+
+### Commerce
+
+Payments your customers make to you: orders from your funnels, stores, payment links and invoices, form payments, and SaaS packages your clients buy; and invoices that are not paid by their due date.
+
+| Event | Fires when | `data` fields |
+| - | - | - |
+| `order.paid` | An order was paid (once per order), a form took a payment, or a client bought a SaaS package (sent to the agency's workspace) | `email`, `contact` (as in CRM events, when the order is linked to one), `payment` `{order_id, amount, currency, email, name, source, test, subscription}`; a form payment has `payment_intent` instead of `order_id`, plus `form` `{id, submission_id, name}` and `fields`; a SaaS package sale has `order_id` 0, `source` `saas_package`, `package_id`, `package_name` and `client_workspace_id` (no `test` or `subscription`) |
+| `order.payment_failed` | A checkout was declined, or a subscription renewal charge failed | `email`, `contact` (when linked), `payment` `{order_id, amount, currency, email, name, source, reason}` with `reason` `declined` or `rebill_failed` |
+| `subscription.canceled` | A subscription ended: cancelled at once, or at the end of the period it was set to cancel at; also when a client's SaaS package subscription ends (sent to the agency's workspace) | `email`, `contact` (when linked), `subscription` `{order_id, subscription_id, email, name, source}`; a SaaS package adds `package_id`, `package_name` and `client_workspace_id`, with `order_id` 0 |
+| `invoice.overdue` | An invoice you sent reached its due date and is still unpaid (sent or viewed). Checked every hour: it goes out on the day the invoice falls due, and invoices that fell due in the 7 days before are caught up (for example right after you subscribe), older ones are not. With an Invoice overdue automation in the workspace it can also go out with that automation's run. Sent once per invoice; invoices with no customer email are skipped | `email` (the contact's, or the invoice's customer email when there is no contact), `contact` (when linked), `invoice` `{invoice_id, number, amount, currency, email, name, due_date}` with `due_date` as `YYYY-MM-DD` |
+
+`amount` is in major units (e.g. `49.5`). These events carry customer details, so a webhook created by a team member without access to payments, or limited to the contacts assigned to them, does not receive them.
 
 ### CRM
 
