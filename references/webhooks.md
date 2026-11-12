@@ -39,6 +39,12 @@ Every delivery is JSON with the same envelope:
     "platforms": [
       { "platform": "instagram", "success": true },
       { "platform": "twitter", "success": true }
+    ],
+    "results": [
+      { "platform": "instagram", "account": "acmecoffee", "account_id": 750, "account_username": "acmecoffee", "status": "success",
+        "platform_post_id": "18122306330050894", "url": "https://www.instagram.com/p/DfmBzzwEq9x/", "published_at": "2026-07-26T14:29:58Z", "error": null },
+      { "platform": "twitter", "account": "Acme Coffee", "account_id": 771, "account_username": "acmecoffee", "status": "success",
+        "platform_post_id": "1817234567890123456", "url": "https://x.com/acmecoffee/status/1817234567890123456", "published_at": "2026-07-26T14:29:59Z", "error": null }
     ]
   }
 }
@@ -106,7 +112,7 @@ All registerable events. Registering an event name outside this catalog is rejec
 
 | Event | Fires when | `data` fields |
 | - | - | - |
-| `post.published` | Every platform target published | `post_id`, `status`, `platforms[]` (`platform`, `success`; on failures `error` `{code, message, retryable}` plus, when the failure came from SmartlyQ's own pre-publish checks, `error.detail` with the exact human-readable reason, e.g. `"Twitter/X caption is 312 characters; the limit is 280. Trim 32 characters and retry."`; when media was auto-fixed before publishing, `transcoded[]` lists what was converted, e.g. `"Video was vp9/webm; converted to H.264/AAC MP4."`) |
+| `post.published` | Every platform target published | `post_id`, `status`, `platforms[]` (`platform`, `success`; on failures `error` `{code, message, retryable}` plus, when the failure came from SmartlyQ's own pre-publish checks, `error.detail` with the exact human-readable reason, e.g. `"Twitter/X caption is 312 characters; the limit is 280. Trim 32 characters and retry."`; when media was auto-fixed before publishing, `transcoded[]` lists what was converted, e.g. `"Video was vp9/webm; converted to H.264/AAC MP4."`); `results[]`, one entry per social account with its own link, platform post id and worded error (the `PostResult` shape in the API reference: `platform`, `account`, `account_id`, `account_username`, `status`, `platform_post_id`, `url`, `published_at`, `error`) |
 | `post.partial` | Some platforms published, some failed | same as `post.published` |
 | `post.failed` | Every platform target failed | same as `post.published` |
 | `post.scheduled` | A post was accepted and queued for a future publish | `post_id`, `status`, `scheduled_at`, `platforms[]` |
@@ -114,6 +120,14 @@ All registerable events. Registering an event name outside this catalog is rejec
 | `post.recycled` | A recycling chain spawned a new occurrence of a post | `post_id` (the new occurrence), `recycled_from`, `status`, `scheduled_at` |
 | `post.external.created` | A post authored natively on the platform (not via SmartlyQ) was detected by external sync | `post_id`, `platform`, `remote_id`, `status` (`external`) |
 | `post.external.updated` | A synced native post's text or media changed on the platform | same as `post.external.created` |
+
+`post.published`, `post.partial` and `post.failed` describe the post's overall state: `platforms[]` and `results[]` always cover the whole post.
+
+* **After a retry** (from the API, the app's Retry button or the automatic retry) one of them is sent again **only when the post's state changed**, for example `post.failed` and later `post.published`. `retried[]` then lists the platforms that were tried again. A retry that leaves the state as it was sends nothing, so a post that keeps failing does not run your workflow on every attempt. One exception: when the automatic retry gives up, a last `post.failed` or `post.partial` is sent with `will_retry: false`.
+* **`will_retry`** (on all three events): `true` when the automatic retry will try the post again (at most 3 attempts, within 24 hours), so you can wait for the final outcome; `false` when it will not, for example after 3 attempts or when every failure needs you to change something. Always `false` on `post.published`, so one filter "will\_retry is false" catches every finished post.
+* They are also sent when a post fails as a whole outside a publish run, for example it was stuck mid-publish, or the social service is not enabled for the workspace.
+* In webhooks, `results[].error.fix` and `results[].error.docs_url` are always `null`; `code`, `message`, `retryable` and `detail` are the same as on the API, which also fills in `fix` and `docs_url`.
+* One post can produce more than one of these events: deduplicate on the envelope `id`, not on `post_id`.
 
 ### Accounts
 
