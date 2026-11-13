@@ -126,7 +126,7 @@ All registerable events. Registering an event name outside this catalog is rejec
 * **After a retry** (from the API, the app's Retry button or the automatic retry) one of them is sent again **only when the post's state changed**, for example `post.failed` and later `post.published`. `retried[]` then lists the platforms that were tried again. A retry that leaves the state as it was sends nothing, so a post that keeps failing does not run your workflow on every attempt. One exception: when the automatic retry gives up, a last `post.failed` or `post.partial` is sent with `will_retry: false`.
 * **`will_retry`** (on all three events): `true` when the automatic retry will try the post again (at most 3 attempts, within 24 hours), so you can wait for the final outcome; `false` when it will not, for example after 3 attempts or when every failure needs you to change something. Always `false` on `post.published`, so one filter "will\_retry is false" catches every finished post.
 * They are also sent when a post fails as a whole outside a publish run, for example it was stuck mid-publish, or the social service is not enabled for the workspace.
-* In webhooks, `results[].error.fix` and `results[].error.docs_url` are always `null`; `code`, `message`, `retryable` and `detail` are the same as on the API, which also fills in `fix` and `docs_url`.
+* In webhooks, `results[].error.fix` and `results[].error.docs_url` are always `null`; `code`, `message`, `retryable` and `detail` are the same as on the API. API answers also fill in `fix`; `docs_url` is filled in only where an error reference page is published, so expect `null`.
 * One post can produce more than one of these events: deduplicate on the envelope `id`, not on `post_id`.
 
 ### Accounts

@@ -44,6 +44,7 @@ All errors follow a consistent JSON structure:
 | - | - |
 | `UNAUTHORIZED` | API key is missing or invalid |
 | `FORBIDDEN` | Key lacks the required scope |
+| `NOT_YOUR_POST` | The post exists and this key can see it, but only its author, the workspace owner or an admin may change it (update, delete, unpublish, edit). `error.fix` says what to do. A key acts as the person who created it. |
 | `CONNECTION_SCOPE_MISSING` | The connected social account is missing a permission this call needs, usually because it was connected before SmartlyQ requested that permission. Reconnect the account to fix it; `details.reconnect_required` is `true`. |
 | `INSUFFICIENT_CREDITS` | Wallet balance too low |
 | `RATE_LIMIT_EXCEEDED` | You exceeded your own request limit. See [rate limiting](https://docs.smartlyq.com/guides/rate-limiting.md). |
