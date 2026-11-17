@@ -97,7 +97,7 @@ function verifySignature(rawBody, signatureHeader, secret) {
 
 ## Retry policy
 
-* Non-2xx responses are retried up to **5 attempts** with exponential backoff (≈2, 4, 8, 16, 32 minutes).
+* Non-2xx responses are retried up to **5 attempts** with exponential backoff (the first at once, then ≈2, 4, 8 and 16 minutes later).
 * If your endpoint answers `429` with a `Retry-After` header, we honor it (capped at 1 hour) instead of the standard backoff.
 * After the final attempt the delivery is marked **dead-letter** (it is not silently dropped - you can re-run it from the dashboard Logs).
 * **10 consecutive failures** flip the endpoint to `failing` and pause deliveries until you fix and re-enable it.
@@ -223,12 +223,13 @@ Booking events fire once per real change to a booking made through your event ty
 | `booking.cancelled` | A booking was cancelled, by the guest or the host | same as `booking.created`, plus `booking.cancellation_reason` when one was given |
 | `booking.rejected` | The host turned down a booking that was waiting | same as `booking.cancelled` |
 | `booking.no_show` | A booking was marked as a no-show | same as `booking.created` |
+| `booking.no_show_updated` | Who did not come changed: a guest was marked or unmarked as not coming, or a no-show was undone | same as `booking.created`; `booking.no_show_guests` lists who did not come, empty when nobody |
 | `booking.completed` | A booking was marked as completed | same as `booking.created` |
 | `booking.paid` | A payment for a booking went through - the deposit, or a later charge such as a no-show fee | same as `booking.created`, plus `booking.payment` `{amount_minor, currency, payment_intent, test_mode}` (`amount_minor` in the currency's smallest unit, e.g. cents) |
 | `booking.started` | A confirmed booking's start time arrived | same as `booking.created`; sent within about a minute of the start |
 | `booking.ended` | A booking's end time passed (not for cancelled or moved bookings) | same as `booking.created`; sent within about a minute of the end |
 
-`booking` is `{id, uid, status, title, description, start_time, end_time, timezone, location {type, meeting_url, address}, event_type {id, slug, title}, host {name, email, user_id}, guests[], topic, guest_notes, answers{}, is_recurring, rescheduled_from_uid, created_at}`. `start_time` and `end_time` are UTC (ISO 8601); `timezone` is the guest's. `topic` is the answer to the built-in question "What is this meeting about?", `guest_notes` what the guest wrote in the form's notes field, and `answers` the booker's answers to the questions you added, keyed by question name. Your team's own booking notes are never included.
+`booking` is `{id, uid, status, title, description, start_time, end_time, timezone, location {type, meeting_url, address}, event_type {id, slug, title}, host {name, email, user_id}, guests[], no_show_guests[], topic, guest_notes, answers{}, is_recurring, rescheduled_from_uid, created_at}`. `start_time` and `end_time` are UTC (ISO 8601); `timezone` is the guest's. `topic` is the answer to the built-in question "What is this meeting about?", `guest_notes` what the guest wrote in the form's notes field, and `answers` the booker's answers to the questions you added, keyed by question name. `no_show_guests` are the emails of the guests marked as not coming (lower-case, empty when nobody). Your team's own booking notes are never included.
 
 Booking events carry contact details, so they follow the same rule as CRM events: a webhook created by a team member without CRM access, or limited to the contacts assigned to them, does not receive them. Appointments copied in from a connected Google Calendar are not bookings and send no booking events.
 

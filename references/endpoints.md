@@ -4,7 +4,7 @@ Generated from the published OpenAPI spec at https://docs.smartlyq.com/openapi.j
 
 Base URL: `https://api.smartlyq.com/v1`
 
-314 paths, 411 operations, 35 resource groups.
+317 paths, 414 operations, 35 resource groups.
 
 Use this to find the right endpoint quickly. For request and response
 shapes, fetch the spec or the reference page for that operation - do not
@@ -218,6 +218,33 @@ guess a body from the summary.
 | `PATCH` | `/whatsapp/templates/{name}` | Update a WhatsApp template |
 | `DELETE` | `/whatsapp/templates/{name}` | Delete a WhatsApp template |
 
+## calendar (22)
+
+| Method | Path | Operation |
+| --- | --- | --- |
+| `GET` | `/calendar/availability` | List availability schedules |
+| `POST` | `/calendar/availability` | Create an availability schedule |
+| `PATCH` | `/calendar/availability/{id}` | Update an availability schedule |
+| `DELETE` | `/calendar/availability/{id}` | Delete an availability schedule |
+| `GET` | `/calendar/blocked-times` | List blocked time |
+| `POST` | `/calendar/blocked-times` | Block off time |
+| `DELETE` | `/calendar/blocked-times/{id}` | Free blocked time |
+| `GET` | `/calendar/bookings` | List bookings |
+| `POST` | `/calendar/bookings` | Take a booking |
+| `GET` | `/calendar/bookings/{id}` | Get a booking |
+| `POST` | `/calendar/bookings/{id}/cancel` | Cancel a booking |
+| `POST` | `/calendar/bookings/{id}/decline` | Decline a booking |
+| `POST` | `/calendar/bookings/{id}/guests` | Add guests to a booking |
+| `POST` | `/calendar/bookings/{id}/no-show` | Mark who did not come |
+| `GET` | `/calendar/bookings/{id}/notes` | List booking notes |
+| `POST` | `/calendar/bookings/{id}/notes` | Add a booking note |
+| `DELETE` | `/calendar/bookings/{id}/notes/{note_id}` | Delete a booking note |
+| `POST` | `/calendar/bookings/{id}/reschedule` | Reschedule a booking |
+| `POST` | `/calendar/bookings/{id}/status` | Set a booking's status |
+| `GET` | `/calendar/busy-times` | List busy times |
+| `GET` | `/calendar/event-types` | List booking pages |
+| `GET` | `/calendar/slots` | List open slots |
+
 ## analytics (19)
 
 | Method | Path | Operation |
@@ -241,30 +268,6 @@ guess a body from the summary.
 | `GET` | `/analytics/youtube/daily-views` | YouTube daily views |
 | `GET` | `/analytics/youtube/demographics` | YouTube viewer demographics |
 | `GET` | `/analytics/youtube/video-retention` | YouTube audience retention |
-
-## calendar (19)
-
-| Method | Path | Operation |
-| --- | --- | --- |
-| `GET` | `/calendar/availability` | List availability schedules |
-| `POST` | `/calendar/availability` | Create an availability schedule |
-| `PATCH` | `/calendar/availability/{id}` | Update an availability schedule |
-| `DELETE` | `/calendar/availability/{id}` | Delete an availability schedule |
-| `GET` | `/calendar/blocked-times` | List blocked time |
-| `POST` | `/calendar/blocked-times` | Block off time |
-| `DELETE` | `/calendar/blocked-times/{id}` | Free blocked time |
-| `GET` | `/calendar/bookings` | List bookings |
-| `POST` | `/calendar/bookings` | Take a booking |
-| `GET` | `/calendar/bookings/{id}` | Get a booking |
-| `POST` | `/calendar/bookings/{id}/cancel` | Cancel a booking |
-| `GET` | `/calendar/bookings/{id}/notes` | List booking notes |
-| `POST` | `/calendar/bookings/{id}/notes` | Add a booking note |
-| `DELETE` | `/calendar/bookings/{id}/notes/{note_id}` | Delete a booking note |
-| `POST` | `/calendar/bookings/{id}/reschedule` | Reschedule a booking |
-| `POST` | `/calendar/bookings/{id}/status` | Set a booking's status |
-| `GET` | `/calendar/busy-times` | List busy times |
-| `GET` | `/calendar/event-types` | List booking pages |
-| `GET` | `/calendar/slots` | List open slots |
 
 ## contacts (17)
 
