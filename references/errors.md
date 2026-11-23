@@ -36,7 +36,7 @@ All errors follow a consistent JSON structure:
 | `422` | Unprocessable Entity - validation error, or a connected platform or provider refused the request (`error.message` carries its reason) |
 | `429` | Too Many Requests — rate limited |
 | `500` | Internal Server Error |
-| `502` | Bad Gateway - a connected platform could not be reached at all. Sent without a JSON body. Retry after a short delay. |
+| `503` | Service Unavailable - a connected platform or one of our services could not be reached, or did not answer in time. The JSON body carries the reason. Retry after a short delay. |
 
 ## Common error codes
 
@@ -46,6 +46,7 @@ All errors follow a consistent JSON structure:
 | `FORBIDDEN` | Key lacks the required scope |
 | `NOT_YOUR_POST` | The post exists and this key can see it, but only its author, the workspace owner or an admin may change it (update, delete, unpublish, edit). `error.fix` says what to do. A key acts as the person who created it. |
 | `NOT_YOUR_ACCOUNT` | HTTP `403`. The connected account is in this key's workspace and the key can use it (list, read, post to it), but only the workspace owner, an admin or the person who connected it may change it or act through it (rename, pause, resume, disconnect, reconnect, settings, WhatsApp messages, retweets, mention replies). `error.fix` says what to do. A key acts as the person who created it. |
+| `ACCOUNT_PERMISSION_MISSING` | In a post's per-account `results` (and its `failures`): the platform refused to publish for that account because its connection is missing a permission, or the account was not picked when it was connected - for example an Instagram account that was not ticked when Facebook asked which accounts to share. Retrying as is fails the same way: reconnect the account, choose **Edit settings** when Facebook asks, tick the account and allow every permission, then retry. |
 | `CONNECTION_SCOPE_MISSING` | The connected social account is missing a permission this call needs, usually because it was connected before SmartlyQ requested that permission. Reconnect the account to fix it; `details.reconnect_required` is `true`. |
 | `INSUFFICIENT_CREDITS` | Wallet balance too low |
 | `SUBSCRIPTION_REQUIRED` | HTTP `403`, `retryable: false`. The account behind the key has no active subscription, so every key, app connection (MCP, Zapier, Make, Pabbly) and webhook of its workspaces is stopped. Checked before rate limiting and billing: a refused call costs nothing, and the API wallet balance is kept for when the subscription is renewed. `details.subscription_state` says why: `ended` ("This account's subscription has been cancelled. Resume your subscription to use the API."), `none` ("This account has no active subscription. Choose a plan to use the API.") or `agency_inactive` ("This workspace is not active. Contact your agency to use the API.", a workspace managed by an agency whose own subscription is over). A subscription cancelled for the end of its billing period keeps working until that day. An unpaid renewal answers `423 BILLING_PAUSED` instead. |
@@ -61,7 +62,7 @@ All errors follow a consistent JSON structure:
 | `POST_TYPE_UNSUPPORTED` | `platform_options.<platform>.type` names a post format this platform cannot publish. The message lists the accepted values; see [Platform options](https://docs.smartlyq.com/guides/platform-options.md). |
 | `PLATFORM_DAILY_LIMIT_REACHED` | HTTP `422`, not retryable. The platform's daily limit for this post type is used up for a selected account - today, Facebook's 30 Reels per Page in a moving 24-hour window. Nothing is created. Publish after `details.next_available_at`, or send the post as a different type. `details` also carries `account_id`, `limit` and `used`. |
 | `PLATFORM_ERROR` | HTTP `422`. The connected platform refused the request, for example an expired token or a value it does not accept. `error.message` includes the platform's own reason. Fix the request or reconnect the account; retrying the same request will fail the same way. |
-| `PLATFORM_UPSTREAM_ERROR` | HTTP `422` from the WhatsApp endpoints: WhatsApp refused the request, with its reason in `error.message`. HTTP `502` only when WhatsApp could not be reached. |
+| `PLATFORM_UPSTREAM_ERROR` | HTTP `422` from the WhatsApp endpoints: WhatsApp refused the request, with its reason in `error.message`. HTTP `503` only when WhatsApp could not be reached. |
 | `PROVIDER_ERROR` | HTTP `422`. An AI or media provider could not produce a result. When `retryable` is `true`, the same request can succeed on a second try. |
 
 ## Idempotency

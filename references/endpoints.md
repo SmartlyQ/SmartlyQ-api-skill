@@ -22,7 +22,7 @@ guess a body from the summary.
 | `GET` | `/social/accounts` | List social accounts |
 | `GET` | `/social/accounts/follower-stats` | Follower stats |
 | `GET` | `/social/accounts/health` | Bulk account health |
-| `PATCH` | `/social/accounts/{account_id}` | Rename account |
+| `PATCH` | `/social/accounts/{account_id}` | Update account |
 | `DELETE` | `/social/accounts/{account_id}` | Disconnect a social account |
 | `GET` | `/social/accounts/{account_id}/connect-options` | Connection target options |
 | `POST` | `/social/accounts/{account_id}/connect-select` | Select connection target |
