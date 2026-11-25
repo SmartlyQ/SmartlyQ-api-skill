@@ -4,13 +4,13 @@ Generated from the published OpenAPI spec at https://docs.smartlyq.com/openapi.j
 
 Base URL: `https://api.smartlyq.com/v1`
 
-317 paths, 414 operations, 35 resource groups.
+319 paths, 416 operations, 35 resource groups.
 
 Use this to find the right endpoint quickly. For request and response
 shapes, fetch the spec or the reference page for that operation - do not
 guess a body from the summary.
 
-## social (117)
+## social (119)
 
 | Method | Path | Operation |
 | --- | --- | --- |
@@ -24,6 +24,8 @@ guess a body from the summary.
 | `GET` | `/social/accounts/health` | Bulk account health |
 | `PATCH` | `/social/accounts/{account_id}` | Update account |
 | `DELETE` | `/social/accounts/{account_id}` | Disconnect a social account |
+| `GET` | `/social/accounts/{account_id}/community/authors` | Community authors |
+| `GET` | `/social/accounts/{account_id}/community/limits` | Community planner limits |
 | `GET` | `/social/accounts/{account_id}/connect-options` | Connection target options |
 | `POST` | `/social/accounts/{account_id}/connect-select` | Select connection target |
 | `GET` | `/social/accounts/{account_id}/facebook/page` | Get Facebook page details |
